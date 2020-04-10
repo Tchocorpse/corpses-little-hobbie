@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hw_test',
+    'hw_test.apps.HwTestConfig',
 ]
 
 MIDDLEWARE = [
