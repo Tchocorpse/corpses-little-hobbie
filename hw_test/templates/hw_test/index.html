@@ -9,8 +9,25 @@
     <p> Hello, world and you Цыма. I am test app. </p>
 <h2>Test Messages</h2>
     <p> Something is here: </p>
+    {% if messages_list %}
     <ul>
-        <li>TM: {{ test_messages }}</li>
+
+        {% for hello_message in messages_list %}
+
+        <li> {{ hello_message.hello_title }}: </li>
+        {{ hello_message.hello_body }}
+        {{ hello_message.publishing_date }}
+        {% endfor %}
+
     </ul>
+    {% endif %}
+<h1>Test put</h1>
+    <p> Lets try to put something to base: </p>
+    <form action="/hw_test/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="OK">
+    </form>
+
 </body>
 </html>

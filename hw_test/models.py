@@ -8,8 +8,9 @@ class HelloTestMessage(models.Model):
     publishing_date = models.DateTimeField()
 
     def receive_message(self):
-        self.save()
+
         self.publishing_date = timezone.now()
+        self.save()
 
     def __str__(self):
         return self.hello_title
