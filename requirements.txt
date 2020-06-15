@@ -1,4 +1,4 @@
-cryptography==2.1.4
+cryptography==2.3
 Django==3.0.7
 lxml==4.2.1
 ipaddr==2.2.0
