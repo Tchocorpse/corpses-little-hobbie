@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Test messages page</title>
+
+    <style>
+        .TestDiv {
+        border: 4px outset black;
+        text-align: center;
+        }
+    </style>
 </head>
 <body>
 <h1>Hello</h1>
@@ -10,16 +17,26 @@
 <h2>Test Messages</h2>
     <p> Something is here: </p>
     {% if messages_list %}
-    <ul>
+
 
         {% for hello_message in messages_list %}
+        <div class="TestDiv">
+            <p> {{ hello_message.hello_title }}: </p>
+            <ul>
+                <li>{{ hello_message.id }}</li>
+                <li>{{ hello_message.hello_body }}</li>
+                <li>{{ hello_message.publishing_date }}</li>
+            </ul>
+            <p>Delete this:</p>
+            <form action="{% url 'hw_test:hw_test_delete' hello_message.id %}"  method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Confirm Deletion {{hello_message.id}}!" />
+            </form>
+        </div>
 
-        <li> {{ hello_message.hello_title }}: </li>
-        {{ hello_message.hello_body }}
-        {{ hello_message.publishing_date }}
         {% endfor %}
 
-    </ul>
+
     {% endif %}
 <h1>Test put</h1>
     <p> Lets try to put something to base: </p>
