@@ -8,6 +8,44 @@ from django.urls import reverse
 
 def receive_test_message(request):
     if request.method == "POST":
+        return HttpResponseRedirect("/hw_test/Test_separate_input")
+
+    else:
+
+        # test_form = TestMessageRecieve()
+        message_head = HelloTestMessage.objects.all()
+
+        return render(
+            request, "hw_test/index.html", context={"messages_list": message_head,},
+        )
+
+
+def receive_delete_message(request, delete_id):
+    if request.method == "POST":
+        delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
+
+        delete_hello.delete()
+        return HttpResponseRedirect("/hw_test/")
+
+    else:
+        return HttpResponseRedirect("/hw_test/")
+
+
+def separate_detailed(request, detail_id):
+    if request.method == "GET":
+        detail_hello = get_object_or_404(HelloTestMessage, pk=detail_id)
+
+        return render(
+            request,
+            "hw_test/Test_detail.html",
+            context={"hello_message": detail_hello,},
+        )
+    else:
+        return HttpResponseRedirect("/hw_test/")
+
+
+def separate_input(request):
+    if request.method == "POST":
         test_form = TestMessageRecieve(request.POST)
 
         if test_form.is_valid():
@@ -34,17 +72,6 @@ def receive_test_message(request):
         # return HttpResponseRedirect("/hw_test/")
         return render(
             request,
-            "hw_test/index.html",
+            "hw_test/Test_separate_input.html",
             context={"form": test_form, "messages_list": message_head,},
         )
-
-
-def receive_delete_message(request, delete_id):
-    if request.method == "POST":
-        delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
-
-        delete_hello.delete()
-        return HttpResponseRedirect("/hw_test/")
-
-    else:
-        return HttpResponseRedirect("/hw_test/")

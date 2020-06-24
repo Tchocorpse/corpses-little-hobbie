@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detailed Hello page</title>
+    <style>
+        .TestDiv {
+        border: 4px outset black;
+        text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detailed message {{ hello_message.id }}</h1>
+    <div class="TestDiv">
+     <p> Hello, Here is detailed hello test message: </p>
+
+        <p>{{ hello_message.hello_title }}</p>
+
+        {{ hello_message.hello_body }}
+
+    </div>
+
+<form action="{% url 'hw_test:hw_test' %}"  method="GET">
+    {% csrf_token %}
+    <input type="submit" value="Back to main page" />
+</form>
+
+
+
+
+
+
+
+</body>
+</html>

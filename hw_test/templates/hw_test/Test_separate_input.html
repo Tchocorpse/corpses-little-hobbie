@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Separate input</title>
+</head>
+<body>
+    <h1>Test put</h1>
+    <p> Lets try to put something to base: </p>
+    <form action="{% url 'hw_test:hw_test_input' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="OK">
+    </form>
+</body>
+</html>
