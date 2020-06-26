@@ -19,8 +19,12 @@
 
         {{ hello_message.hello_body }}
 
-    </div>
 
+
+    </div>
+    Was published:
+    {{hello_message.publishing_date}}
+    <br>
 <form action="{% url 'hw_test:hw_test' %}"  method="GET">
     {% csrf_token %}
     <input type="submit" value="Back to main page" />

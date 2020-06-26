@@ -8,11 +8,10 @@ from django.urls import reverse
 
 def receive_test_message(request):
     if request.method == "POST":
+
         return HttpResponseRedirect("/hw_test/Test_separate_input")
 
     else:
-
-        # test_form = TestMessageRecieve()
         message_head = HelloTestMessage.objects.all()
 
         return render(
@@ -22,9 +21,10 @@ def receive_test_message(request):
 
 def receive_delete_message(request, delete_id):
     if request.method == "POST":
-        delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
 
+        delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
         delete_hello.delete()
+
         return HttpResponseRedirect("/hw_test/")
 
     else:
