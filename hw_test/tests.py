@@ -9,13 +9,19 @@ import datetime
 
 class TrainingTest(TestCase):
     def test_recent_message(self):
-        recent_test = HelloTestMessage.objects.order_by("-publishing_date")[0]
-
         HelloTestMessage.objects.create(
-            hello_title="test_recent",
-            hello_body="test_body",
+            hello_title="hello title 1",
+            hello_body="test body 1",
             publishing_date=timezone.now(),
         )
-        response = self.client.get("hw_test/Test_recent.html")
+        HelloTestMessage.objects.create(
+            hello_title="hello title 2",
+            hello_body="test body 2",
+            publishing_date=timezone.now() - datetime.timedelta(days=2),
+        )
+        recent_test = HelloTestMessage.objects.order_by("-publishing_date")[0]
 
-        self.assertQuerysetEqual(response.context["hello_message"], recent_test)
+        response = self.client.get(reverse("hw_test:hw_test_recent"))
+        resp_hm = response.context["hello_message"]
+
+        self.assertEqual(resp_hm, recent_test)
