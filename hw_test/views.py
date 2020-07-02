@@ -78,3 +78,14 @@ class SeparateInput(View):
             "hw_test/Test_separate_input.html",
             context={"form": test_form, "messages_list": message_head,},
         )
+
+
+class SeparateRecent(View):
+    def get(self, request):
+        recent_hello = HelloTestMessage.objects.order_by("-publishing_date")[0]
+
+        return render(
+            request,
+            "hw_test/Test_recent.html",
+            context={"hello_message": recent_hello,},
+        )

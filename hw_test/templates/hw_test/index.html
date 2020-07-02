@@ -49,6 +49,13 @@
     Adding new message
 </h3>
 
+<form action="{% url 'hw_test:hw_test_recent' %}"  method="GET">
+    {% csrf_token %}
+    <input type="submit" value="Click here to view most recent!" />
+</form>
+
+<br>
+
 <form action="{% url 'hw_test:hw_test_input' %}"  method="GET">
     {% csrf_token %}
     <input type="submit" value="Click here to add new message!" />
