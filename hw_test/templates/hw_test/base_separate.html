@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block title %}
+    <meta charset="UTF-8">
+    <title>Separate message page</title>
+    {% endblock %}
+    <style>
+        .TestDiv {
+        border: 4px outset black;
+        text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+
+    {% endblock %}
+
+<br>
+
+    {% block backbutton %}
+    <form action="{% url 'hw_test:hw_test' %}"  method="GET">
+        {% csrf_token %}
+        <input type="submit" value="Back to main page" />
+    </form>
+    {% endblock %}
+
+</body>
+</html>

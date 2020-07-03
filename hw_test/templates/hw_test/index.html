@@ -15,21 +15,21 @@
 <h1>Hello</h1>
     <p> Hello, world and you Цыма. I am test app. </p>
 <h2>Test Messages</h2>
-    <p> Something is here: </p>
-    {% if messages_list %}
 
+    {% if messages_list %}
+        <p> Something is here: </p>
 
         {% for hello_message in messages_list %}
         <div class="TestDiv">
 
             <ul>
                 <li>{{ hello_message.id }}</li>
-                <li>
+
                     <form action="{% url 'hw_test:hw_test_detail' hello_message.id %}"  method="GET">
                         {% csrf_token %}
                         <input type="submit" value="{{ hello_message.hello_title }}" />
                     </form>
-                </li>
+
                 <li>{{ hello_message.publishing_date }}</li>
             </ul>
             <p>Delete this:</p>
