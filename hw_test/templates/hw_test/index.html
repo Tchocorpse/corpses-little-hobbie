@@ -26,15 +26,15 @@
                 <li>{{ hello_message.id }}</li>
 
                     <form action="{% url 'hw_test:hw_test_detail' hello_message.id %}"  method="GET">
-                        {% csrf_token %}
+
                         <input type="submit" value="{{ hello_message.hello_title }}" />
                     </form>
 
-                <li>{{ hello_message.publishing_date }}</li>
+                <li>{{ hello_message.publishing_dt }}</li>
             </ul>
             <p>Delete this:</p>
-            <form action="{% url 'hw_test:hw_test_delete' hello_message.id %}"  method="POST">
-                {% csrf_token %}
+            <form action="{% url 'hw_test:hw_test_delete' hello_message.id %}"  method="GET">
+
                 <input type="submit" value="Confirm Deletion {{hello_message.id}}!" />
             </form>
         </div>
@@ -50,14 +50,14 @@
 </h3>
 
 <form action="{% url 'hw_test:hw_test_recent' %}"  method="GET">
-    {% csrf_token %}
+
     <input type="submit" value="Click here to view most recent!" />
 </form>
 
 <br>
 
 <form action="{% url 'hw_test:hw_test_input' %}"  method="GET">
-    {% csrf_token %}
+
     <input type="submit" value="Click here to add new message!" />
 </form>
 

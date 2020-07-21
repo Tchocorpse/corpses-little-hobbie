@@ -19,7 +19,7 @@ class TrainingTest(TestCase):
             hello_body="test body 2",
             publishing_date=timezone.now() - datetime.timedelta(days=2),
         )
-        recent_test = HelloTestMessage.objects.order_by("-publishing_date")[0]
+        recent_test = HelloTestMessage.objects.order_by("-publishing_date").first()
 
         response = self.client.get(reverse("hw_test:hw_test_recent"))
         resp_hm = response.context["hello_message"]

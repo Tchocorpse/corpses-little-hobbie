@@ -1,17 +1,14 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from .models import HelloTestMessage
-from .forms import TestMessageRecieve
-from django.utils import timezone
 from django.views import View
+
+from .forms import TestMessageRecieve
+from .models import HelloTestMessage
 
 
 class ReceiveTestMessage(View):
-    def post(self, request):
-
-        return HttpResponseRedirect("/hw_test/Test_separate_input")
-
     def get(self, request):
+
         message_head = HelloTestMessage.objects.all()
 
         return render(
@@ -20,14 +17,19 @@ class ReceiveTestMessage(View):
 
 
 class ReceiveDeleteMessage(View):
-    def post(self, request, delete_id):
+    # def post(self, request, delete_id):
 
-        delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
-        delete_hello.delete()
+    # return HttpResponseRedirect("/hw_test/")
 
-        return HttpResponseRedirect("/hw_test/")
+    def get(self, request, delete_id):
 
-    def get(self):
+        # delete_flag = request.GET.get('delete_flag', 0)
+        delete_flag = True
+        if delete_flag:
+
+            delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
+            delete_hello.delete()
+
         return HttpResponseRedirect("/hw_test/")
 
 
@@ -46,7 +48,7 @@ class SeparateDetailed(View):
 
 
 class SeparateInput(View):
-    received_message = HelloTestMessage()
+    #received_message = HelloTestMessage()
     test_form_class = TestMessageRecieve
 
     def post(self, request):
@@ -54,19 +56,13 @@ class SeparateInput(View):
 
         if test_form.is_valid():
 
-            self.received_message.hello_title = test_form.cleaned_data["hello_title"]
-            self.received_message.hello_body = test_form.cleaned_data["hello_body"]
-            self.received_message.publishing_date = timezone.now()
 
-            self.received_message.save()
+            received_message = HelloTestMessage.objects.create(**test_form.cleaned_data)
 
-            return HttpResponseRedirect("/hw_test/")
-            # return render(
-            #    request, "hw_test/index.html", context={"form": test_form, "messages_list": message_head, }
-            # )
-        else:
 
-            return HttpResponseRedirect("/hw_test/")
+            received_message.save()
+
+        return HttpResponseRedirect("/hw_test/")
 
     def get(self, request):
         test_form = self.test_form_class()
@@ -82,7 +78,7 @@ class SeparateInput(View):
 
 class SeparateRecent(View):
     def get(self, request):
-        recent_hello = HelloTestMessage.objects.order_by("-publishing_date")[0]
+        recent_hello = HelloTestMessage.objects.order_by("-publishing_dt").first()
 
         return render(
             request,
