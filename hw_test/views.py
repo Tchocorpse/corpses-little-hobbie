@@ -1,19 +1,22 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import View
+from django.http import JsonResponse
 
 from .forms import TestMessageRecieve
 from .models import HelloTestMessage
 
 
 class ReceiveTestMessage(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
 
         message_head = HelloTestMessage.objects.all()
-
-        return render(
-            request, "hw_test/index.html", context={"messages_list": message_head,},
-        )
+        if kwargs.get('front') == 1:
+            return JsonResponse({'MesHe': message_head}, status=200)
+        else:
+            return render(
+                request, "hw_test/index.html", context={"messages_list": message_head,},
+            )
 
 
 class ReceiveDeleteMessage(View):
