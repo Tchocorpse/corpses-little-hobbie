@@ -15,12 +15,20 @@
   </head>
   <body>
     <div id="app"></div>
-    <h1>trying get</h1>
-    <div class="TestDiv">
-        <div id="app-get">
-            {{ info }}
+
+    <div id="app-get">
+        <h1>Messages:</h1>
+        <div id="v-for-object">
+            <div v-for="message in info.data.MesHe">
+                <div class="TestDiv">
+                    {{ message.id }} <p>{{ message.hello_title}}</p>
+                    {{ message.hello_body}}
+                    <p>{{ message.publishing_dt }}</p>
+                </div>
+            </div>
         </div>
     </div>
+
     <!-- built files will be auto injected -->
   </body>
 </html>

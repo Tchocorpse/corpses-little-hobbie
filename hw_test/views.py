@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
 from .forms import TestMessageRecieve
 from .models import HelloTestMessage
@@ -11,8 +12,10 @@ class ReceiveTestMessage(View):
     def get(self, request, *args, **kwargs):
 
         message_head = HelloTestMessage.objects.all()
-        if kwargs.get('front') == 1:
-            return JsonResponse({'MesHe': message_head}, status=200)
+        message_head_serialized = [model_to_dict(_obj) for _obj in message_head]
+        if request.GET.get('front'):
+            return JsonResponse({'MesHe': message_head_serialized}, status=200)
+
         else:
             return render(
                 request, "hw_test/index.html", context={"messages_list": message_head,},

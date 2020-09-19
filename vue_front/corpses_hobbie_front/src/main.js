@@ -7,20 +7,6 @@ import Home from '@/components/Home'
 import tsthw from '@/components/testhw'
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 axios.defaults.xsrfCookieName = 'csrftoken'
-// import HelloWorld from "@/components/HelloWorld"
-
-/*
-const NotFound = { template: '<p>Страница не найдена</p>' }
-const Home = { template: '<p>главная</p>' }
-const TestHW = { template: '<p>test</p> <base-separate></base-separate>' }
-const HelloWorldT = { template: '<p>Hello World?</p>' }
-
-const routes = {
-  '/': Home,
-  '/HelloWorld': HelloWorldT,
-  '/testhw': TestHW
-}
-*/
 
 new Vue({ // eslint-disable-line no-new
   el: '#app',
