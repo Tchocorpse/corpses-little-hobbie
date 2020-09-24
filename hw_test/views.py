@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+import json
 
 from .forms import TestMessageRecieve
 from .models import HelloTestMessage
@@ -12,8 +13,8 @@ class ReceiveTestMessage(View):
     def get(self, request, *args, **kwargs):
 
         message_head = HelloTestMessage.objects.all()
-        message_head_serialized = [model_to_dict(_obj) for _obj in message_head]
         if request.GET.get('front'):
+            message_head_serialized = [model_to_dict(_obj) for _obj in message_head]
             return JsonResponse({'MesHe': message_head_serialized}, status=200)
 
         else:
@@ -23,12 +24,10 @@ class ReceiveTestMessage(View):
 
 
 class ReceiveDeleteMessage(View):
-    # def post(self, request, delete_id):
-
-    # return HttpResponseRedirect("/hw_test/")
 
     def get(self, request, delete_id):
 
+        # Strange legacy
         # delete_flag = request.GET.get('delete_flag', 0)
         delete_flag = True
         if delete_flag:
@@ -49,26 +48,22 @@ class SeparateDetailed(View):
             context={"hello_message": detail_hello,},
         )
 
-    # else:
-    # return HttpResponseRedirect("/hw_test/")
-
 
 class SeparateInput(View):
     #received_message = HelloTestMessage()
     test_form_class = TestMessageRecieve
 
     def post(self, request):
-        test_form = self.test_form_class(request.POST)
 
-        if test_form.is_valid():
+        if request.POST.get('front'):
+            received_json_message = json.loads(request.body.decode("utf-8"))
 
-
-            received_message = HelloTestMessage.objects.create(**test_form.cleaned_data)
-
-
-            received_message.save()
-
-        return HttpResponseRedirect("/hw_test/")
+        else:
+            test_form = self.test_form_class(request.POST)
+            if test_form.is_valid():
+                received_message = HelloTestMessage.objects.create(**test_form.cleaned_data)
+                received_message.save()
+            return HttpResponseRedirect("/hw_test/")
 
     def get(self, request):
         test_form = self.test_form_class()

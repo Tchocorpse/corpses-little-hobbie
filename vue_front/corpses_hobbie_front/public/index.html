@@ -8,25 +8,64 @@
     <title>testVue</title>
     <style>
         .TestDiv {
-        border: 4px outset black;
-        text-align: center;
+            border: 4px outset black;
+            text-align: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #886A08;
+        }
+        .TestDiv2 {
+            border: 2px groove #867052;
+
+            text-align: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
     </style>
   </head>
   <body>
-    <div id="app"></div>
 
-    <div id="app-get">
-        <h1>Messages:</h1>
-        <div id="v-for-object">
-            <div v-for="message in info.data.MesHe">
-                <div class="TestDiv">
-                    {{ message.id }} <p>{{ message.hello_title}}</p>
-                    {{ message.hello_body}}
-                    <p>{{ message.publishing_dt }}</p>
+  <h1>Input new message:</h1>
+  <div id="app-input-post">
+      <div class="TestDiv2">
+
+          <input v-model="input_form.input_title" placeholder="Заголовок">
+          <p>{{ input_form.input_title }}</p>
+          <textarea v-model="input_form.input_body" placeholder="Сообщение"></textarea>
+          <br>
+          <p style="white-space: pre-line;">{{ input_form.input_body }}</p>
+          <button v-on:click="sendMessage"> Отправить </button>
+      </div>
+  </div>
+
+  <div id="app-get">
+        <h2>Messages:</h2>
+
+        <section v-if="errored">
+            <p>Something gone wrong. Cannot reach or get backend data.</p>
+        </section>
+
+        <section v-else>
+            <div v-if="loading">Loading...</div>
+
+            <div v-else>
+
+                <div v-for="message in info.data.MesHe">
+                    <div class="TestDiv">
+                        <!-- <div id="app-router1"></div>  -->
+                        {{ message.id }} <p>{{ message.hello_title}}</p>
+                        {{ message.hello_body}}
+                        <p>{{ message.publishing_dt }}</p>
+
+                    </div>
                 </div>
+
             </div>
-        </div>
+
+        </section>
+    </div>
+    <div id="app-delete-get">
+        <button v-on:click="delete_id++" v-bind:delete_id="13">Удалить {{ delete_id }} </button>
     </div>
 
     <!-- built files will be auto injected -->
