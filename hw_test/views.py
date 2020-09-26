@@ -1,21 +1,25 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.views import View
+from django.utils.decorators import method_decorator
 from django.http import JsonResponse
-from django.forms.models import model_to_dict
-import json
+from rest_framework.views import APIView
+
+import logging
+
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .forms import TestMessageRecieve
 from .models import HelloTestMessage
+from .serializers import TestMessageSerializer
 
 
-class ReceiveTestMessage(View):
+class ReceiveTestMessage(APIView):
     def get(self, request, *args, **kwargs):
-
         message_head = HelloTestMessage.objects.all()
-        if request.GET.get('front'):
-            message_head_serialized = [model_to_dict(_obj) for _obj in message_head]
-            return JsonResponse({'MesHe': message_head_serialized}, status=200)
+        if request.GET.get("front"):
+
+            message_head_serialized = TestMessageSerializer(message_head, many=True)
+            return JsonResponse({"MesHe": message_head_serialized.data}, status=200)
 
         else:
             return render(
@@ -23,22 +27,27 @@ class ReceiveTestMessage(View):
             )
 
 
-class ReceiveDeleteMessage(View):
-
+class ReceiveDeleteMessage(APIView):
     def get(self, request, delete_id):
 
-        # Strange legacy
-        # delete_flag = request.GET.get('delete_flag', 0)
-        delete_flag = True
-        if delete_flag:
-
+        if request.GET.get("front"):
+            #logging.warning(request.GET)
             delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
             delete_hello.delete()
+            return HttpResponse(status=200)
+        else:
+            # Strange legacy
+            # delete_flag = request.GET.get('delete_flag', 0)
+            delete_flag = True
+            if delete_flag:
 
-        return HttpResponseRedirect("/hw_test/")
+                delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
+                delete_hello.delete()
+
+            return HttpResponseRedirect("/hw_test/")
 
 
-class SeparateDetailed(View):
+class SeparateDetailed(APIView):
     def get(self, request, detail_id):
         detail_hello = get_object_or_404(HelloTestMessage, pk=detail_id)
 
@@ -49,19 +58,26 @@ class SeparateDetailed(View):
         )
 
 
-class SeparateInput(View):
-    #received_message = HelloTestMessage()
+class SeparateInput(APIView):
     test_form_class = TestMessageRecieve
 
     def post(self, request):
 
-        if request.POST.get('front'):
-            received_json_message = json.loads(request.body.decode("utf-8"))
+        if request.GET.get("front"):
 
+            received_serialized_message = TestMessageSerializer(data=request.data)
+            if received_serialized_message.is_valid():
+                received_serialized_message.save()
+                return HttpResponse(status=201)
+
+            else:
+                return HttpResponse(status=400)
         else:
             test_form = self.test_form_class(request.POST)
             if test_form.is_valid():
-                received_message = HelloTestMessage.objects.create(**test_form.cleaned_data)
+                received_message = HelloTestMessage.objects.create(
+                    **test_form.cleaned_data
+                )
                 received_message.save()
             return HttpResponseRedirect("/hw_test/")
 
@@ -77,7 +93,7 @@ class SeparateInput(View):
         )
 
 
-class SeparateRecent(View):
+class SeparateRecent(APIView):
     def get(self, request):
         recent_hello = HelloTestMessage.objects.order_by("-publishing_dt").first()
 
@@ -86,3 +102,8 @@ class SeparateRecent(View):
             "hw_test/Test_recent.html",
             context={"hello_message": recent_hello,},
         )
+
+# class CSRFTokenView(View):
+#     @method_decorator(ensure_csrf_cookie)
+#     def get(self, request):
+#         return HttpResponse()

@@ -16,12 +16,15 @@
         }
         .TestDiv2 {
             border: 2px groove #867052;
-
             text-align: center;
+            width: 600px;
+            padding: 50px;
+            margin: auto;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
     </style>
+
   </head>
   <body>
 
@@ -29,11 +32,11 @@
   <div id="app-input-post">
       <div class="TestDiv2">
 
-          <input v-model="input_form.input_title" placeholder="Заголовок">
-          <p>{{ input_form.input_title }}</p>
-          <textarea v-model="input_form.input_body" placeholder="Сообщение"></textarea>
+          <input v-model="input_form.hello_title" placeholder="Заголовок">
+          <p>{{ input_form.hello_title }}</p>
+          <textarea v-model="input_form.hello_body" placeholder="Сообщение"></textarea>
           <br>
-          <p style="white-space: pre-line;">{{ input_form.input_body }}</p>
+          <p style="white-space: pre-line;">{{ input_form.hello_body }}</p>
           <button v-on:click="sendMessage"> Отправить </button>
       </div>
   </div>
@@ -65,7 +68,8 @@
         </section>
     </div>
     <div id="app-delete-get">
-        <button v-on:click="delete_id++" v-bind:delete_id="13">Удалить {{ delete_id }} </button>
+        <input v-model="delete_id" placeholder="Id сообщения на удаление">
+        <button v-on:click="deleteMessage" >Удалить {{ delete_id }} </button>
     </div>
 
     <!-- built files will be auto injected -->

@@ -12,6 +12,8 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.withCredentials = true
 export default axios
 
+const defaultUrl = 'http://127.0.0.1:8000/hw_test/'
+
 new Vue({ // eslint-disable-line no-new
   el: '#app-router1',
   router,
@@ -26,17 +28,26 @@ new Vue({ // eslint-disable-line no-new
       info: 'placeholder',
       loading: true,
       errored: false
+
     }
   },
   mounted () {
+    // this.getCSRFToken()
     axios
-      .get('http://127.0.0.1:8000/hw_test/', { params: { front: 1 } })
+      .get(defaultUrl, { params: { front: 1 } })
       .then(response => (this.info = response))
       .catch(error => {
         console.log(error)
         this.errored = true
       })
       .finally(() => (this.loading = false)) // Бушь ревьюить детальнее объясни как и зачем эта хуйня работает.
+  },
+  methods: {
+    getCSRFToken: function () {
+      return axios.get('http://127.0.0.1:8000/hw_test/token/').then(response => {
+        axios.defaults.headers.common['x-csrftoken'] = Cookies.get('csrftoken')
+      })
+    }
   }
 })
 
@@ -50,7 +61,7 @@ new Vue({ // eslint-disable-line no-new
   methods: {
     deleteMessage: function () {
       axios
-        .get('http://127.0.0.1:8000/delete_test/' + encodeURIComponent(this.delete_id), { params: { front: 1 } })
+        .get(defaultUrl + 'delete_test/' + encodeURIComponent(this.delete_id), { params: { front: 1 } })
         .then(response => (this.info = response))
         .catch(error => {
           console.log(error)
@@ -66,8 +77,8 @@ new Vue({ // eslint-disable-line no-new
   data () {
     return {
       input_form: {
-        input_title: '',
-        input_body: ''
+        hello_title: '',
+        hello_body: ''
       }
     }
   },
@@ -75,7 +86,7 @@ new Vue({ // eslint-disable-line no-new
     sendMessage: function () {
       console.log(document.cookie)
       axios
-        .post('http://127.0.0.1:8000/hw_test/Test_separate_input', this.input_form, { withCredentials: true, params: { front: 1 } })
+        .post(defaultUrl + 'Test_separate_input', this.input_form, { params: { front: 1 } })
         .then(response => {
           // А зачем это?
         })
@@ -87,12 +98,12 @@ new Vue({ // eslint-disable-line no-new
   }
 })
 
-var csrfCookie = Cookies.get('XSRF-TOKEN')
-console.log(csrfCookie)
-axios.post('http://127.0.0.1:8000/hw_test/Test_separate_input', {},
-  {
-    headers: {
-      'X-CSRFTOKEN': csrfCookie
-    }
-  }
-)
+// var csrfCookie = Cookies.get('XSRF-TOKEN')
+// console.log(csrfCookie)
+// axios.post('http://127.0.0.1:8000/hw_test/Test_separate_input', {},
+//   {
+//     headers: {
+//       'X-CSRFTOKEN': csrfCookie
+//     }
+//   }
+// )

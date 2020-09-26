@@ -6,6 +6,7 @@ from hw_test.views import (
     SeparateDetailed,
     SeparateInput,
     SeparateRecent,
+    #CSRFTokenView,
 )
 
 app_name = "hw_test"
@@ -22,4 +23,5 @@ urlpatterns = [
     ),
     path("", ReceiveTestMessage.as_view(), name="hw_test"),
     path("Test_recent", SeparateRecent.as_view(), name="hw_test_recent"),
+    #path('token', CSRFTokenView.as_view, name="get_csrf_token")
 ]

@@ -27,7 +27,7 @@ SECRET_KEY = "7(qyr)j2y^ko#+koe$nk0p^6=w6#7@_dgb4577o%4%@k$45#t*"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -132,17 +132,17 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-#CORS_ORIGIN_WHITELIST = (
-#    'http://localhost:8000',
-#    'http://localhost:8080',
-#)
-
-CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ALLOW_CREDENTIALS = True
-CORS_EXPOSE_HEADERS = (
-    'Access-Control-Allow-Origin: *',
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+    'http://192.168.1.3:8080',
 )
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'X-CSRFTOKEN',
-]
+
+CORS_ORIGIN_ALLOW_ALL = False
+#
+CORS_ALLOW_CREDENTIALS = True
+# CORS_EXPOSE_HEADERS = (
+#     'Access-Control-Allow-Origin: *',
+# )
+# CORS_ALLOW_HEADERS = list(default_headers) + [
+#     'X-CSRFTOKEN',
+# ]
