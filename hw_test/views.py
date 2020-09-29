@@ -1,12 +1,9 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 from rest_framework.views import APIView
 
 import logging
-
-from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .forms import TestMessageRecieve
 from .models import HelloTestMessage
@@ -102,8 +99,3 @@ class SeparateRecent(APIView):
             "hw_test/Test_recent.html",
             context={"hello_message": recent_hello,},
         )
-
-# class CSRFTokenView(View):
-#     @method_decorator(ensure_csrf_cookie)
-#     def get(self, request):
-#         return HttpResponse()

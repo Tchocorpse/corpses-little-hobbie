@@ -28,28 +28,25 @@
   </head>
   <body>
 
-  <h1>Input new message:</h1>
-  <div id="app-input-post">
-      <div class="TestDiv2">
 
-          <input v-model="input_form.hello_title" placeholder="Заголовок">
+  <div id="app-main">
+      <h1>Input new message:</h1>
+      <div class="TestDiv2">
+          <input maxlength="10" v-model="input_form.hello_title" placeholder="Заголовок">
           <p>{{ input_form.hello_title }}</p>
           <textarea v-model="input_form.hello_body" placeholder="Сообщение"></textarea>
           <br>
           <p style="white-space: pre-line;">{{ input_form.hello_body }}</p>
           <button v-on:click="sendMessage"> Отправить </button>
       </div>
-  </div>
-
-  <div id="app-get">
         <h2>Messages:</h2>
 
-        <section v-if="errored">
+        <section v-if="errored_load">
             <p>Something gone wrong. Cannot reach or get backend data.</p>
         </section>
 
         <section v-else>
-            <div v-if="loading">Loading...</div>
+            <div v-if="loading_load">Loading...</div>
 
             <div v-else>
 
@@ -59,17 +56,16 @@
                         {{ message.id }} <p>{{ message.hello_title}}</p>
                         {{ message.hello_body}}
                         <p>{{ message.publishing_dt }}</p>
-
+                        <button v-on:click="delete_id=message.id; deleteMessage()">Удалить {{ message.id }} </button>
                     </div>
                 </div>
 
             </div>
 
         </section>
-    </div>
-    <div id="app-delete-get">
-        <input v-model="delete_id" placeholder="Id сообщения на удаление">
-        <button v-on:click="deleteMessage" >Удалить {{ delete_id }} </button>
+      <h3>Delete message by id:</h3>
+      <input v-model="delete_id" placeholder="Id сообщения на удаление">
+      <button v-on:click="deleteMessage" >Удалить {{ delete_id }} </button>
     </div>
 
     <!-- built files will be auto injected -->
