@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.views import APIView
 
 import logging
@@ -91,6 +92,7 @@ class SeparateInput(APIView):
 
 
 class SeparateRecent(APIView):
+
     def get(self, request):
         recent_hello = HelloTestMessage.objects.order_by("-publishing_dt").first()
 
@@ -99,3 +101,16 @@ class SeparateRecent(APIView):
             "hw_test/Test_recent.html",
             context={"hello_message": recent_hello,},
         )
+
+
+class SeparateImageInput(APIView):
+    parser_classes = [MultiPartParser]
+
+    def post(self, request):
+
+        if request.GET.get("front"):
+            uploaded_image = request.data
+            logging.warning(uploaded_image)
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=400)

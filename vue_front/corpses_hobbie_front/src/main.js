@@ -5,7 +5,6 @@ import axios from 'axios'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import tsthw from '@/components/testhw'
-import Cookies from 'js-cookie'
 
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 axios.defaults.xsrfCookieName = 'csrftoken'
@@ -31,6 +30,8 @@ new Vue({ // eslint-disable-line no-new
       loading_del: true,
       errored_del: false,
       delete_id: null,
+      image_file: '',
+      preview_url: '',
       input_form: {
         hello_title: '',
         hello_body: ''
@@ -58,9 +59,17 @@ new Vue({ // eslint-disable-line no-new
       axios
         .post(defaultUrl + 'Test_separate_input', this.input_form, { params: { front: 1 } })
         .then(response => {
-          // А зачем это?
           this.input_form.input_title = ''
           this.input_form.input_body = ''
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        // .finally(() => { this.loadMessages() })
+      axios
+        .post(defaultUrl + 'image_input', this.image_file, { headers: { 'Content-Type': 'multipart/form-data' }, params: { front: 1 } })
+        .then(response => {
+          // this.image_file = ''
         })
         .catch(error => {
           console.log(error)
@@ -75,7 +84,12 @@ new Vue({ // eslint-disable-line no-new
           console.log(error)
           this.errored_load = true
         })
-        .finally(() => (this.loading_load = false)) // Бушь ревьюить детальнее объясни как и зачем эта хуйня работает.
+        .finally(() => (this.loading_load = false))
+    },
+    catchFiles (event) {
+      this.image_file = event.target.files[0]
+      this.preview_url = URL.createObjectURL(this.image_file)
+      console.log(this.image_file)
     }
   }
 })

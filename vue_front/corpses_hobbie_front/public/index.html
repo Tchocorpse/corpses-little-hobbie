@@ -32,12 +32,16 @@
   <div id="app-main">
       <h1>Input new message:</h1>
       <div class="TestDiv2">
-          <input maxlength="10" v-model="input_form.hello_title" placeholder="Заголовок">
+          <input maxlength="20" v-model="input_form.hello_title" placeholder="Заголовок">
           <p>{{ input_form.hello_title }}</p>
           <textarea v-model="input_form.hello_body" placeholder="Сообщение"></textarea>
           <br>
           <p style="white-space: pre-line;">{{ input_form.hello_body }}</p>
           <button v-on:click="sendMessage"> Отправить </button>
+          <p>File testing:</p>
+          <input type="file" @change="catchFiles" name="img_file">
+          <img v-if="preview_url" :src="preview_url" style="max-width: 500px; max-height: 500px">
+
       </div>
         <h2>Messages:</h2>
 
