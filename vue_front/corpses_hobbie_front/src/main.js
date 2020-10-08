@@ -24,11 +24,10 @@ new Vue({ // eslint-disable-line no-new
   el: '#app-main',
   data () {
     return {
-      info: 'placeholder',
+      loaded_messages: 'placeholder',
+      delete_response: 'Nothing',
       loading_load: true,
       errored_load: false,
-      loading_del: true,
-      errored_del: false,
       delete_id: null,
       image_file: '',
       preview_url: '',
@@ -44,20 +43,18 @@ new Vue({ // eslint-disable-line no-new
   methods: {
     deleteMessage: function () {
       axios
-        .get(defaultUrl + 'delete_test/' + encodeURIComponent(this.delete_id), { params: { front: 1 } })
-        .then(response => (this.info = response))
+        .get(defaultUrl + 'deletemes/' + encodeURIComponent(this.delete_id))
+        .then(response => (this.delete_response = response))
         .catch(error => {
           console.log(error)
-          this.errored_del = true
         })
         .finally(() => {
-          (this.loading_del = false)
           this.loadMessages()
         })
     },
     sendMessage: function () {
       axios
-        .post(defaultUrl + 'Test_separate_input', this.input_form, { params: { front: 1 } })
+        .post(defaultUrl + 'sendmes', this.input_form)
         .then(response => {
           this.input_form.input_title = ''
           this.input_form.input_body = ''
@@ -67,9 +64,9 @@ new Vue({ // eslint-disable-line no-new
         })
         // .finally(() => { this.loadMessages() })
       axios
-        .post(defaultUrl + 'image_input', this.image_file, { headers: { 'Content-Type': 'multipart/form-data' }, params: { front: 1 } })
+        .post(defaultUrl + 'image_input', this.image_file, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then(response => {
-          // this.image_file = ''
+          this.image_file = ''
         })
         .catch(error => {
           console.log(error)
@@ -78,8 +75,8 @@ new Vue({ // eslint-disable-line no-new
     },
     loadMessages: function () {
       axios
-        .get(defaultUrl, { params: { front: 1 } })
-        .then(response => (this.info = response))
+        .get(defaultUrl + 'receivemes')
+        .then(response => (this.loaded_messages = response))
         .catch(error => {
           console.log(error)
           this.errored_load = true
