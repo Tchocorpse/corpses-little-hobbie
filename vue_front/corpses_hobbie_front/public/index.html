@@ -7,22 +7,7 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>testVue</title>
     <style>
-        .TestDiv {
-            border: 4px outset black;
-            text-align: center;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            color: #886A08;
-        }
-        .TestDiv2 {
-            border: 2px groove #867052;
-            text-align: center;
-            width: 600px;
-            padding: 50px;
-            margin: auto;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+
     </style>
 
   </head>
@@ -30,47 +15,8 @@
 
 
   <div id="app-main">
-      <h1>Input new message:</h1>
-      <div class="TestDiv2">
-          <input maxlength="20" v-model="input_form.hello_title" placeholder="Заголовок">
-          <p>{{ input_form.hello_title }}</p>
-          <textarea v-model="input_form.hello_body" placeholder="Сообщение"></textarea>
-          <br>
-          <p style="white-space: pre-line;">{{ input_form.hello_body }}</p>
-          <button v-on:click="sendMessage"> Отправить </button>
-          <p>File testing:</p>
-          <input type="file" @change="catchFiles" name="img_file">
-          <img v-if="preview_url" :src="preview_url" style="max-width: 500px; max-height: 500px">
 
-      </div>
-        <h2>Messages:</h2>
-
-        <section v-if="errored_load">
-            <p>Something gone wrong. Cannot reach or get backend data.</p>
-        </section>
-
-        <section v-else>
-            <div v-if="loading_load">Loading...</div>
-
-            <div v-else>
-
-                <div v-for="message in loaded_messages.data.MesHe">
-                    <div class="TestDiv">
-                        <!-- <div id="app-router1"></div>  -->
-                        {{ message.id }} <p>{{ message.hello_title}}</p>
-                        {{ message.hello_body}}
-                        <p>{{ message.publishing_dt }}</p>
-                        <button v-on:click="delete_id=message.id; deleteMessage()">Удалить {{ message.id }} </button>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-      <h3>Delete message by id:</h3>
-      <input v-model="delete_id" placeholder="Id сообщения на удаление">
-      <button v-on:click="deleteMessage" >Удалить {{ delete_id }} </button>
-    </div>
+  </div>
 
     <!-- built files will be auto injected -->
   </body>

@@ -12,5 +12,9 @@ class HelloTestMessage(models.Model):
 
 
 class ImageFileModel(models.Model):
-    message_id = models.IntegerField()
     image_file = models.ImageField()
+
+
+class MessageImageMap(models.Model):
+    message_id = models.IntegerField()
+    image_id = models.IntegerField()

@@ -5,10 +5,10 @@ from hw_test.views import (
     SeparateDetailed,
     SeparateInput,
     SeparateRecent,
-    SeparateImageInput,
     LegacyReceiveMessage,
     LegacyDeleteMessage,
     LegacyInput,
+    SeparateImageOutput,
 )
 
 app_name = "hw_test"
@@ -28,6 +28,6 @@ urlpatterns = [
     path("sendmes", SeparateInput.as_view(), name="send_message"),
     path("deletemes", ReceiveDeleteMessage.as_view(), name="delete_message"),
     path("receivemes", ReceiveMessage.as_view(), name="receive_message"),
-    path("image_input", SeparateImageInput.as_view(), name="image_input"),
+    path("image/<int:message_id>", SeparateImageOutput.as_view(), name="image_output")
 ]
 
