@@ -12,7 +12,7 @@ class HelloTestMessage(models.Model):
 
 
 class ImageFileModel(models.Model):
-    image_file = models.ImageField()
+    image_file = models.ImageField(upload_to='image_upload_folder/')
 
 
 class MessageImageMap(models.Model):

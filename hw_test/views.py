@@ -21,15 +21,24 @@ class ReceiveMessage(APIView):
         messages_list = HelloTestMessage.objects.all()
 
         message_list_serialized = TestMessageSerializer(messages_list, many=True)
-        return JsonResponse({"MesHe": message_list_serialized.data,}, status=200,)
+        return JsonResponse({"MesHe": message_list_serialized.data}, status=200,)
 
 
 class ReceiveDeleteMessage(APIView):
     def get(self, request, delete_id):
 
-        # logging.warning(request.GET)
         delete_hello = get_object_or_404(HelloTestMessage, pk=delete_id)
         delete_hello.delete()
+
+        image_map = get_object_or_404(MessageImageMap, message_id=delete_id)
+        image_map_serialized = MessageImageMapSerializer(image_map)
+        image_map.delete()
+
+        image_to_delete_id = image_map_serialized.data["image_id"]
+        if image_to_delete_id != -1:
+            image_to_delete = ImageFileModel.objects.get(pk=image_to_delete_id)
+            image_to_delete.delete()
+
         return HttpResponse(status=200)
 
 
@@ -90,7 +99,9 @@ class SeparateImageOutput(APIView):
         if image_to_send_id != -1:
             image_to_send = ImageFileModel.objects.get(pk=image_to_send_id)
             image_to_send_serialized = ImageFileSerializer(image_to_send)
-            return HttpResponse(image_to_send_serialized.data["image_file"], content_type="image/jpg")
+            return HttpResponse(
+                image_to_send_serialized.data["image_file"], content_type="image/jpg"
+            )
         else:
             return HttpResponse(status=400)
 

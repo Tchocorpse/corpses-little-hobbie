@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/components/Home.vue'
-import tsthw from '@/components/testhw'
-import input from '@/components/input_page'
-import detail from '@/components/detail'
+import tsthw from '@/components/DisplayMessage'
+import input from '@/components/inputPart'
+import detail from '@/components/DeleteMessage'
 
 Vue.use(VueRouter)
 

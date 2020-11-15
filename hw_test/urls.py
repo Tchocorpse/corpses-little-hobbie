@@ -26,8 +26,11 @@ urlpatterns = [
     path("", LegacyReceiveMessage.as_view(), name="hw_test"),
     path("Test_recent", SeparateRecent.as_view(), name="hw_test_recent"),
     path("sendmes", SeparateInput.as_view(), name="send_message"),
-    path("deletemes", ReceiveDeleteMessage.as_view(), name="delete_message"),
+    path(
+        "deletemes/<int:delete_id>",
+        ReceiveDeleteMessage.as_view(),
+        name="delete_message",
+    ),
     path("receivemes", ReceiveMessage.as_view(), name="receive_message"),
-    path("image/<int:message_id>", SeparateImageOutput.as_view(), name="image_output")
+    path("image/<int:message_id>", SeparateImageOutput.as_view(), name="image_output"),
 ]
-
